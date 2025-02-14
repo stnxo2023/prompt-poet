@@ -164,7 +164,7 @@ class Prompt:
         if len(self._parts) > index:
             part = self._parts[index]
             if part.content.startswith(old):
-                self._parts[index].content = f"{new}{part.content.lstrip(old)}"
+                self._parts[index].content = f"{new}{part.content[len(old):]}"
                 self._tokenize_part(part, force_retokenize=True)
         else:
             raise IndexError(f"Index out of bounds: {index=} {len(self._parts)=}.")

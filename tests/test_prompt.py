@@ -260,6 +260,12 @@ def test_example_cai_template_happy():
         prompt.string
         == "<|beginningofdialog|>2024 06 24 Bob: The \r title - The description<|endofmessage|><|beginningofmessage|>narrator: The definition<|endofmessage|><|beginningofmessage|>narrator: With multiple lines<|endofmessage|><|beginningofmessage|>narrator: In the definition<|endofmessage|><|beginningofmessage|>Jeff: The persona \r definition<|endofmessage|><|beginningofmessage|>Alice: The third message<|endofmessage|><|beginningofmessage|>Alice: The first \n \n message<|endofmessage|><|beginningofmessage|>Jeff: The second \r message<|endofmessage|><|beginningofmessage|>Alice: The third message<|endofmessage|><|beginningofmessage|>Jeff: The fourth ' message<|endofmessage|><|beginningofmessage|>Alice:"
     )
+    prompt.lreplace_at(old="<|beginningofmessage|>", new=" ", index=2)
+    prompt.lreplace_at(old=" ", new="<|beginningofmessage|>", index=2)
+    assert (
+            prompt.string
+            == "<|beginningofdialog|>2024 06 24 Bob: The \r title - The description<|endofmessage|><|beginningofmessage|>narrator: The definition<|endofmessage|><|beginningofmessage|>narrator: With multiple lines<|endofmessage|><|beginningofmessage|>narrator: In the definition<|endofmessage|><|beginningofmessage|>Jeff: The persona \r definition<|endofmessage|><|beginningofmessage|>Alice: The third message<|endofmessage|><|beginningofmessage|>Alice: The first \n \n message<|endofmessage|><|beginningofmessage|>Jeff: The second \r message<|endofmessage|><|beginningofmessage|>Alice: The third message<|endofmessage|><|beginningofmessage|>Jeff: The fourth ' message<|endofmessage|><|beginningofmessage|>Alice:"
+    )
     with pytest.raises(IndexError, match="Index out of bounds:"):
         prompt.lreplace_at(old="<|beginningofmessage|>", new=" ", index=999)
 
