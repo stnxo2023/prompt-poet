@@ -86,7 +86,7 @@ class TemplateRegistry:
             return template_loader.load()
 
         cache_key = template_loader.id()
-        if cache_key not in self._template_loader_cache:
+        if cache_key not in self._template_cache:
             self._template_loader_cache[cache_key] = template_loader
             self._template_cache[cache_key] = template_loader.load()
         return self._template_cache[cache_key]
@@ -108,5 +108,5 @@ class TemplateRegistry:
         # Handle partial initiation or reset.
         if hasattr(self, '_stop_event') and self._stop_event and not self._stop_event.is_set():
             self._stop_event.set()
-            if hasattr(self, '_thread') and self._thread:
-                self._thread.join()
+            if hasattr(self, '_thread') and self._thread and self._thread.is_alive():
+                self._thread.join(timeout=5)
